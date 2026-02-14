@@ -1,104 +1,120 @@
-Name - Yash Patel
-Student No - 100785833
+# Cavern – Refactored Version
 
-🎮 How to Run the Game
-1️⃣ Install dependencies (if not already installed)
+**Name:** Yash Patel  
+**Student Number:** 100785833  
+
+---
+
+## Project Overview
+
+This project is a refactored version of the Cavern game using Pygame Zero.
+
+The goal of this refactoring was to:
+
+- Improve code structure
+- Remove global state usage
+- Implement proper input handling
+- Add pause functionality
+- Separate logic using screen objects
+
+The game includes a Menu screen, Play screen, and Game Over screen.
+
+---
+
+## How to Run the Game
+
+### 1. Install Requirements
 
 Make sure Python 3.12+ is installed.
 
 Install Pygame Zero:
-pip install pgzero
 
-2️⃣ Run the game
+---
+
+### 2. Run the Game
 
 From the project root folder:
-pgzrun cavern.py
-
-🧪 How to Run Tests
-
-There are no automated unit tests in this version.
-Testing was done manually by verifying:
-
-Screen transitions (Menu → Play → Game Over)
-
-Edge detection for SPACE key
-
-Orb firing works correctly
-
-Pause mode freezes simulation
-
-Resume works cleanly without crashes
 
 
-🏗 Architectural Changes (Summary)
 
-This project was refactored to improve code structure and remove global state usage.
+---
 
-1️⃣ State Pattern – Screen Objects
+## Controls
 
-Instead of using global state branching inside update() and draw(), the game now uses screen objects:
+- **Left Arrow** – Move left  
+- **Right Arrow** – Move right  
+- **Space** – Jump / Fire  
+- **P** – Toggle Pause  
 
-MenuScreen
+---
 
-PlayScreen
+## Features Implemented
 
-GameOverScreen
+### 1. Screen-Based Architecture
 
-An App object owns the current screen.
+The game uses separate screen classes:
 
-Global update() and draw() are now thin delegates:
+- `MenuScreen`
+- `PlayScreen`
+- `GameOverScreen`
 
-def update():
-    app.update(keyboard)
+An `App` object manages the current screen.
 
-def draw():
-    app.draw(screen)
+Global `update()` and `draw()` functions delegate to the App.
 
+---
 
-2️⃣ Command Pattern – Input Snapshot
+### 2. Input Handling (Edge Detection)
 
-The game no longer reads keyboard directly inside Player.update().
+Keyboard input is handled using an `InputState` object created once per frame.
 
-Instead, an InputState object is created once per frame.
+It supports:
 
-It contains:
+- Left / Right movement
+- Jump pressed (edge detection)
+- Fire pressed (edge detection)
+- Fire hold
+- Pause pressed
 
-left
+This removes direct keyboard access inside game entities.
 
-right
+---
 
-jump_pressed (edge detection)
+### 3. Pause Mode (Task C)
 
-fire_pressed (edge detection)
+- Press **P** to pause the game
+- Game simulation stops (movement, timers, spawning)
+- Current screen still renders
+- A "PAUSED" overlay is displayed
+- Press **P** again to resume
 
-fire_held
+Pause functionality works only in `PlayScreen`.
 
-pause_pressed
+---
 
-This allows:
+## Testing
 
-Proper edge detection (pressed this frame only)
+Testing was performed manually by verifying:
 
-No global space_down
+- Menu → Play → Game Over transitions
+- Jump and fire edge detection
+- Pause toggle behavior
+- Resume functionality without crashes
 
-No direct keyboard access inside entities
+No automated unit tests were implemented.
 
-This makes input handling centralized and clean.
+---
 
-3️⃣ Pause Mode (Task C)
+## Notes
 
-Pause is toggled using the P key.
+- `__pycache__` and `.pyc` files are excluded using `.gitignore`
+- Code is structured for clarity and maintainability
+- No global state is used for input or screen management
 
-When paused:
+---
 
-Game simulation stops (no movement, no timers, no spawning)
+## Author
 
-The current scene still renders
-
-A "PAUSED" overlay is displayed
-
-Pressing P again resumes the game.
-
-Pause works only in PlayScreen.
-
+Yash Patel  
+Student Number: 100785833
 
